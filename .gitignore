@@ -1,7 +1,7 @@
 .env
+/database/finance.db
 
-database/finance.db
-
+logs/
 finance-telebot
 finance-telebot.exe
 
