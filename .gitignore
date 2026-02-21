@@ -1,0 +1,9 @@
+.env
+
+database/finance.db
+
+finance-telebot
+finance-telebot.exe
+
+.devdbrc
+.vscode/
