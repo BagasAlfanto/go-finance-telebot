@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -14,8 +15,14 @@ var (
 )
 
 func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("[info] .env file tidak ditemukan, menggunakan environment variable sistem")
+	}
 	botToken = os.Getenv("BOT_TOKEN")
 	teleID, _ = strconv.ParseInt(os.Getenv("TELE_ID"), 10, 64)
+	if botToken == "" {
+		log.Panic("BOT_TOKEN tidak valid. Isi file .env atau set environment variable BOT_TOKEN")
+	}
 }
 
 func Connect() *tgbotapi.BotAPI {
