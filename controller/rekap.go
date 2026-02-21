@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"finance-telebot/database"
 	"finance-telebot/model"
 	"fmt"
 	"strings"
@@ -24,14 +25,14 @@ func Recap(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 			"\n  <code>/rekap #nightguardian</code>"+
 			"\n  <code>/rekap 20 #nightguardian</code>")
 		msg.ParseMode = "HTML"
-		bot.Send(msg)
+		database.SendAndLog(bot, msg)
 		return
 	}
 
 	transaksi, err := model.GetRekap(q)
 	if err != nil {
 		msg := tgbotapi.NewMessage(message.Chat.ID, "❌ Gagal mengambil data: "+err.Error())
-		bot.Send(msg)
+		database.SendAndLog(bot, msg)
 		return
 	}
 
@@ -42,7 +43,7 @@ func Recap(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		}
 		msg := tgbotapi.NewMessage(message.Chat.ID, teks)
 		msg.ParseMode = "HTML"
-		bot.Send(msg)
+		database.SendAndLog(bot, msg)
 		return
 	}
 
@@ -93,5 +94,5 @@ func Recap(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 	msg := tgbotapi.NewMessage(message.Chat.ID, sb.String())
 	msg.ReplyToMessageID = message.MessageID
 	msg.ParseMode = "HTML"
-	bot.Send(msg)
+	database.SendAndLog(bot, msg)
 }

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"finance-telebot/database"
 	"finance-telebot/model"
 	"fmt"
 
@@ -16,7 +17,7 @@ func StorePemasukan(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 	text := message.Text
 	if text == "" {
 		msg := tgbotapi.NewMessage(message.Chat.ID, "Pesan tidak boleh kosong")
-		bot.Send(msg)
+		database.SendAndLog(bot, msg)
 		return
 	}
 
@@ -26,14 +27,14 @@ func StorePemasukan(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 			"\n\nFormat: <code>/masuk [nominal] [deskripsi] #[kategori]</code>"+
 			"\nContoh: <code>/masuk 300000 joki tugas #job</code>")
 		msg.ParseMode = "HTML"
-		bot.Send(msg)
+		database.SendAndLog(bot, msg)
 		return
 	}
 
 	err = model.StorePemasukan(pemasukan)
 	if err != nil {
 		msg := tgbotapi.NewMessage(message.Chat.ID, "❌ Gagal menyimpan pemasukan: "+err.Error())
-		bot.Send(msg)
+		database.SendAndLog(bot, msg)
 		return
 	}
 
@@ -46,5 +47,5 @@ func StorePemasukan(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 	msg := tgbotapi.NewMessage(message.Chat.ID, responseText)
 	msg.ReplyToMessageID = message.MessageID
 	msg.ParseMode = "HTML"
-	bot.Send(msg)
+	database.SendAndLog(bot, msg)
 }
