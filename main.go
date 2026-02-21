@@ -36,14 +36,18 @@ func main() {
 			log.Printf("Unauthorized access attempt from ID: %d", senderID)
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Anda tidak memiliki akses")
 			msg.ReplyToMessageID = update.Message.MessageID
-			bot.Send(msg)
+			database.SendAndLog(bot, msg)
 			continue
 		}
 
 		text := update.Message.Text
+		database.LogChat(update)
+
 		switch {
 		case text == "/start":
 			model.WelcomeMessage(bot, update)
+		case text == "/help":
+			model.HelpMessage(bot, update)
 		case strings.HasPrefix(text, "/masuk"):
 			controller.StorePemasukan(bot, update)
 		case strings.HasPrefix(text, "/keluar"):
@@ -53,7 +57,7 @@ func main() {
 		default:
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Perintah tidak dikenali. Ketik /help untuk bantuan.")
 			msg.ReplyToMessageID = update.Message.MessageID
-			bot.Send(msg)
+			database.SendAndLog(bot, msg)
 		}
 
 		log.Printf("[%s] %s", update.Message.From.UserName, text)
