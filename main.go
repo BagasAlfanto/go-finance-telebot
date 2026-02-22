@@ -59,7 +59,5 @@ func main() {
 			msg.ReplyToMessageID = update.Message.MessageID
 			database.SendAndLog(bot, msg)
 		}
-
-		log.Printf("[%s] %s", update.Message.From.UserName, text)
 	}
 }
