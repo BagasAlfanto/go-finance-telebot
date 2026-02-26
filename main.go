@@ -48,6 +48,10 @@ func main() {
 			model.WelcomeMessage(bot, update)
 		case text == "/help":
 			model.HelpMessage(bot, update)
+		case text == "/kategori":
+			controller.ListKategori(bot, update)
+		case strings.HasPrefix(text, "/total"):
+			controller.Total(bot, update)
 		case strings.HasPrefix(text, "/masuk"):
 			controller.StorePemasukan(bot, update)
 		case strings.HasPrefix(text, "/keluar"):
