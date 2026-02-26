@@ -22,8 +22,8 @@ func Recap(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 			"\nContoh:"+
 			"\n  <code>/rekap</code>"+
 			"\n  <code>/rekap 20</code>"+
-			"\n  <code>/rekap #nightguardian</code>"+
-			"\n  <code>/rekap 20 #nightguardian</code>")
+			"\n  <code>/rekap #pribadi</code>"+
+			"\n  <code>/rekap 20 #pribadi</code>")
 		msg.ParseMode = "HTML"
 		database.SendAndLog(bot, msg)
 		return
